@@ -58,7 +58,7 @@ async function onSpamReport(event) {
 
       // Send the email using the Azure Communication Service (replace with actual client setup)
       try {
-        const emailClient = /* Initialize your email client here */;
+        const emailClient = "xigabik938@avashost.com";
         const poller = await emailClient.beginSend(message);
         const response = await poller.pollUntilDone();
         console.log("Email sent successfully:", response);
