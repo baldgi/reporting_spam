@@ -7,47 +7,34 @@
 
 // Ensures the Office.js library is loaded.
 Office.onReady(() => {
-  /**
-   * IMPORTANT: To ensure your add-in is supported in the classic Outlook client on Windows,
-   * remember to map the event handler name specified in the manifest to its JavaScript counterpart.
-   */
   if (Office.context.platform === Office.PlatformType.PC || Office.context.platform == null) {
-    Office.actions.associate("onSpamReport", onSpamReport); }
+    Office.actions.associate("onSpamReport", onSpamReport);
+  }
 });
 
 // Handles the SpamReporting event to process a reported message.
-function onSpamReport(event) {
-  // Get the user's email address
-  const userEmailAddress = Office.context.mailbox.userProfile.emailAddress;
-  // Log the user's email address to the console
-  console.log(`User's email address: ${userEmailAddress}`);
+async function onSpamReport(event) {
+  try {
+    // Get the user's email address
+    const userEmailAddress = Office.context.mailbox.userProfile.emailAddress;
+    console.log(`User's email address: ${userEmailAddress}`);
 
-  // Get the Base64-encoded EML format of a reported message.
-  Office.context.mailbox.item.getAsFileAsync(
-    { asyncContext: event },
-    (asyncResult) => {
+    // Get the Base64-encoded EML format of the reported message.
+    Office.context.mailbox.item.getAsFileAsync(Office.CoercionType.EML, async (asyncResult) => {
       if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-        console.log(
-          `Error encountered during message processing: ${asyncResult.error.message}`
-        );
+        console.log(`Error encountered during message processing: ${asyncResult.error.message}`);
         return;
       }
 
-      // Get the user's responses to the options and text box in the preprocessing dialog.
-      const spamReportingEvent = asyncResult.asyncContext;
-      console.log(`spamReportingEvent: ${spamReportingEvent}`);
-      const reportedOptions = spamReportingEvent.options;
-      console.log(`reportedOptions: ${reportedOptions}`);
-      const additionalInfo = spamReportingEvent.freeText;
-      console.log(`additionalInfo: ${additionalInfo}`);
+      const emlContent = asyncResult.value;
+      console.log("EML content retrieved successfully");
 
-      // Send new email with attachement
-      // https://learn.microsoft.com/fr-fr/javascript/api/overview/azure/communication-email-readme?view=azure-node-latest
+      // Example email message setup
       const message = {
-        senderAddress: ${userEmailAddress} //"sender@contoso.com",
+        senderAddress: userEmailAddress,
         content: {
-          subject: "This is the subject",
-          plainText: "This is the body",
+          subject: "Reported Spam Email",
+          plainText: "Please see the attached email for details.",
         },
         recipients: {
           to: [
@@ -59,32 +46,37 @@ function onSpamReport(event) {
         },
         attachments: [
           {
-            name: spamReportingEvent//path.basename(filePath),
-            contentType: "text/plain",
-            //contentInBase64: readFileSync(filePath, "base64"),
+            name: "reportedEmail.eml",
+            contentType: "message/rfc822",
+            contentInBase64: emlContent,
           },
         ],
       };
-      
-      const poller = await emailClient.beginSend(message);
-      const response = await poller.pollUntilDone();
-      
-      /**
-       * Signals that the spam-reporting event has completed processing.
-       * It then moves the reported message to the Junk Email folder of the mailbox,
-       * then shows a post-processing dialog to the user.
-       * If an error occurs while the message is being processed,
-       * the `onErrorDeleteItem` property determines whether the message will be deleted.
-       */
-      const event = asyncResult.asyncContext;
+
+      // Log the email details for debugging
+      console.log("Email Message:", JSON.stringify(message, null, 2));
+
+      // Send the email using the Azure Communication Service (replace with actual client setup)
+      try {
+        const emailClient = /* Initialize your email client here */;
+        const poller = await emailClient.beginSend(message);
+        const response = await poller.pollUntilDone();
+        console.log("Email sent successfully:", response);
+      } catch (sendError) {
+        console.log("Error sending email:", sendError);
+      }
+
+      // Complete the event and move the reported email to Junk
       event.completed({
         onErrorDeleteItem: true,
         moveItemTo: Office.MailboxEnums.MoveSpamItemTo.JunkFolder,
         showPostProcessingDialog: {
           title: "Contoso Spam Reporting",
-          description: `Thank you for reporting this message.-- ${spamReportingEvent} -- ${reportedOptions} -- ${additionalInfo} -- ${userEmailAddress}`,
+          description: `Thank you for reporting this message. Email sent from ${userEmailAddress} to ${message.recipients.to[0].address}.`,
         },
       });
-    }
-  );
+    });
+  } catch (error) {
+    console.error("An unexpected error occurred:", error);
+  }
 }
