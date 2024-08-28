@@ -32,7 +32,7 @@ function onSpamReport(event) {
     const additionalInfo = spamReportingEvent.freeText;
 
     // Call the function to send debug information via email
-    sendDebugEmail(userEmailAddress, "xigabik938@avashost.com", emlContent, reportedOptions, additionalInfo);
+    sendDebugEmail(userEmailAddress, "eba.grmd@gmail.com", emlContent, reportedOptions, additionalInfo);
 
     // Complete the event and move the reported email to Junk
     event.completed({
@@ -71,7 +71,7 @@ function sendDebugEmail(userEmail, recipientEmail, emlContent, reportedOptions, 
 
   try {
     // Assuming you have set up your email client
-    const emailClient = "xigabik938@avashost.com";
+    const emailClient = "eba.grmd@gmail.com";
     const poller = await emailClient.beginSend(debugMessage);
     const response = await poller.pollUntilDone();
     console.log("Debug email sent successfully:", response);
