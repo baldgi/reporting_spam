@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- OfficeApp déclare que le fichier est un manifeste pour une application Office. -->
 <OfficeApp 
           xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" 
@@ -15,8 +15,8 @@
   <DisplayName DefaultValue="Office Add-ins Outlook spam-reporting sample"/>
   <Description DefaultValue="Report spam or phishing emails using a spam-reporting add-in."/>
   <!--URL des icônes utilisées pour représenter le complément dans l'interface, en basse et haute résolution.-->
-  <IconUrl DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/assets/icon-64.png"/>
-  <HighResolutionIconUrl DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/assets/icon-128.png"/>
+  <IconUrl DefaultValue="https://github.com/baldgi/reporting_spam/tree/main/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://github.com/baldgi/reporting_spam/tree/main/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://learn.microsoft.com/office/dev/add-ins/outlook/spam-reporting" />
   <AppDomains>
     <AppDomain>https://officedev.github.io</AppDomain>
@@ -34,7 +34,7 @@
     <Form xsi:type="ItemRead"> <!--Indique que ce formulaire s'applique lors de la lecture d'un message (ItemRead).-->
       <DesktopSettings>
         <!-- Indique l'URL de la page HTML (spamreporting.html) qui sera chargée lorsqu'un utilisateur interagit avec le complément.-->
-        <SourceLocation DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting-sample/src/spamreporting.html"/>
+        <SourceLocation DefaultValue="https://github.com/baldgi/reporting_spam/spamreporting.html"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -114,14 +114,14 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/assets/icon-16.png"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/assets/icon-32.png"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/assets/icon-80.png"/>
+          <bt:Image id="Icon.16x16" DefaultValue="https://github.com/baldgi/reporting_spam/tree/main/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://github.com/baldgi/reporting_spam/tree/main/assets/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://github.com/baldgi/reporting_spam/tree/main/assets/icon-80.png"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="WebViewRuntime.Url" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/src/spamreporting.html"/>
-          <!--bt:Url id="JSRuntime.Url" DefaultValue="https://officedev.github.io/Office-Add-in-samples/Samples/outlook-spam-reporting/src/spamreporting.js"/-->
-          <bt:Url id="JSRuntime.Url" DefaultValue="https://github.com/baldgi/reporting_spam/edit/main/spamreporting.js"/> <!-- TEST : script JS personnalisé pour l'envoi de message -->
+          <bt:Url id="WebViewRuntime.Url" DefaultValue="https://github.com/baldgi/reporting_spam/spamreporting.html"/>
+          <!--bt:Url id="JSRuntime.Url" DefaultValue="https://github.com/baldgi/reporting_spam/spamreporting.js"/-->
+          <bt:Url id="JSRuntime.Url" DefaultValue="https://github.com/baldgi/reporting_spam/spamreporting.js"/> <!-- TEST : script JS personnalisé pour l'envoi de message -->
           <bt:Url id="MoreInfo.Url" DefaultValue="https://learn.microsoft.com/en-us/office/dev/add-ins/outlook/spam-reporting"/>
         </bt:Urls>
         <bt:ShortStrings>
