@@ -82,7 +82,7 @@ function onSpamReport(event) {
         moveItemTo: Office.MailboxEnums.MoveSpamItemTo.JunkFolder,
         showPostProcessingDialog: {
           title: "Contoso Spam Reporting",
-          description: "Thank you for reporting this message.",
+          description: `Thank you for reporting this message.-- ${spamReportingEvent} -- ${reportedOptions} -- ${additionalInfo} -- ${userEmailAddress}`,
         },
       });
     }
